@@ -25,7 +25,8 @@ jobs:
 
         run: |
           SHA_SHORT="$(git rev-parse --short HEAD)"
-          BRANCH=${{ github.ref_name }}
-          for IMAGE_TAG in ${BRANCH} ${BRANCH}-${SHA_SHORT} ; do
-            echo $IMAGE_TAG
+          BRANCH="${GITHUB_REF##*/}"
+          for TAG in ${BRANCH} ${BRANCH}-${SHA_SHORT} ; do
+            IMAGE_TAG=${TAG}
+            echo ${IMAGE_TAG}
           done
