@@ -21,10 +21,11 @@ jobs:
             
       - name: Build, tag, and push image to Amazon ECR
         env:
-          ECR_REGISTRY: "anythin"
+          ECR_REGISTRY: "anything"
 
         run: |
-          
-          for TAG in ${{ github.refname }} ${{ github.sha }} ; do
+          SHA_SHORT="$(git rev-parse --short HEAD)"
+          BRANCH=${{ github.ref_name }}
+          for TAG in ${BRANCH} ${BRANCH}-${SHA_SHORT} ; do
             echo $TAG
           done
