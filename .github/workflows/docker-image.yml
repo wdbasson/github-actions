@@ -28,9 +28,9 @@ jobs:
           BRANCH="${GITHUB_REF##*/}"
           GITREF=${{ github.ref }}
           HEADREF=${{ github.head_ref}}
-          echo $GITREF
-          echo $HEADREF
-          echo $BRANCH
+          echo "GITREF $GITREF"
+          echo "HEADREF $HEADREF"
+          echo "BRANCH $BRANCH"
           for TAG in ${BRANCH} ${BRANCH}-${SHA_SHORT} ; do
             IMAGE_TAG=${TAG}
             echo ${IMAGE_TAG}
