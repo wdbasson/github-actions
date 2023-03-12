@@ -42,7 +42,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ steps.login-dockerhub.outputs.registry }}/${{ matrix.image }}
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.image }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
