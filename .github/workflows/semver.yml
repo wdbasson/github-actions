@@ -21,7 +21,7 @@ jobs:
             file: dockerfiles/one/Dockerfile
           - image: image-two
             context: .
-            file: dockerfiles/two/Dockerfile.agent
+            file: dockerfiles/two/Dockerfile
     steps:
       -
         name: Checkout
