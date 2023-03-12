@@ -3,13 +3,13 @@ version: '3'
 services:
   image-one:
     build:
-      context: ./dockerfiles/one
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./dockerfiles/one/Dockerfile
     image: wlmbasson/image-one
     container_name: container-one
   image-two:
     build:
-      context: ./dockerfiles/two
-      dockerfile: Dockerfile.agent
+      context: .
+      dockerfile: ./dockerfiles/two/Dockerfile
     image: wlmbasson/image-two
     container_name: container-two
