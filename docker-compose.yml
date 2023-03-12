@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  image-one:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/one/Dockerfile
+    image: wlmbasson/image-one
+    container_name: container-one
+  image-two:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/two/Dockerfile
+    image: wlmbasson/image-two
+    container_name: container-two
