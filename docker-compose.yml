@@ -5,11 +5,11 @@ services:
     build:
       context: ./dockerfiles/one
       dockerfile: Dockerfile
-    image: dockerhub_username/image-one
+    image: wlmbasson/image-one
     container_name: container-one
   image-two:
     build:
       context: ./dockerfiles/two
       dockerfile: Dockerfile.agent
-    image: dockerhub_username/image-two
+    image: wlmbasson/image-two
     container_name: container-two
