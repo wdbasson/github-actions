@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  image-one:
+    build:
+      context: ./dockerfiles/one
+      dockerfile: Dockerfile
+    image: dockerhub_username/image-one
+    container_name: container-one
+  image-two:
+    build:
+      context: ./dockerfiles/two
+      dockerfile: Dockerfile.agent
+    image: dockerhub_username/image-two
+    container_name: container-two
