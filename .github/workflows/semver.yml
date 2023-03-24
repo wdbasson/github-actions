@@ -60,3 +60,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      -    
+        name: Test
+        run: |
+          echo {{ steps.meta.outputs.image_version }}
