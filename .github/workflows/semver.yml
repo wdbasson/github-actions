@@ -70,6 +70,7 @@ jobs:
       -
          name: Test mask
          run: |
+           echo "::add-mask::something"
            echo "ACAPY_GOVERNANCE_AGENT_URL=::add-mask::https://governance-ga-agent.cloudapi.dev.didxtech.com" >> $GITHUB_ENV
            echo NO_QUOTES_VAR=::add-mask::secretvalue
            echo "::add-mask::NO_QUOTES_VAR=secretvalue"
