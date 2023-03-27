@@ -67,3 +67,8 @@ jobs:
       -
          name: Git Semantic Version
          uses: PaulHatch/semantic-version@v5.0.3
+      -
+         name: Test mask
+         run: |
+           echo "ACAPY_GOVERNANCE_AGENT_URL=::add-mask::https://governance-ga-agent.cloudapi.dev.didxtech.com" >> $GITHUB_ENV
+           echo NO_QUOTES_VAR=::add-mask::secretvalue
