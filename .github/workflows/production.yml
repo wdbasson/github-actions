@@ -1,5 +1,5 @@
 # .github/workflows/deploy-production.yaml
-name: Production
+name: Production Deployment
 
 on:
   release:
