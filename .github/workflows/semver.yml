@@ -1,4 +1,4 @@
-name: semver ci testing
+name: CICD
 
 on:
   workflow_dispatch:
