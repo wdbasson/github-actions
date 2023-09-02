@@ -1,4 +1,4 @@
-name: Semver
+name: Semver Auto
 
 on:
   workflow_dispatch:
