@@ -1,0 +1,85 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - image: image-one
+            context: .
+            file: dockerfiles/one/Dockerfile
+          - image: image-two
+            context: .
+            file: dockerfiles/two/Dockerfile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        id: login-dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.image }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Test
+        run: |
+          echo ${{ steps.meta.outputs.image_version }}
+      - name: Git Semantic Version
+        uses: PaulHatch/semantic-version@v5.0.3
+
+  deploy-dev:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+    needs: build
+    environment: dev
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Mock
+        run: |
+          echo "Deploying to dev"
+          echo "Deployed ${{ needs.build.outputs.image_version }} to dev"
+  deploy-stage:
+    name: Deploy to stage
+    runs-on: ubuntu-latest
+    needs: [build, deploy-dev]
+    environment: stage
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    steps:
+      - name: Mock
+        run: |
+          echo "Deploying to stage"
+          echo "Deployed ${{ needs.build.outputs.image_version }} to stage"
