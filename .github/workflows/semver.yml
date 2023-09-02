@@ -1,4 +1,4 @@
-name: CICD
+name: semver
 
 on:
   workflow_dispatch:
