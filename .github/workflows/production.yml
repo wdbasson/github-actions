@@ -7,7 +7,6 @@ on:
 jobs:
   release-production:
     name: Release to Production
-    if: startsWith(github.ref_name, 'r-') # the prefix we have added to the tag
     environment: prod
     runs-on: ubuntu-latest
     permissions:
@@ -16,5 +15,5 @@ jobs:
     steps:
       - name: Mock
         run: |
-          echo "Deploying to dev"
-          echo "Deployed ${{ needs.build.outputs.image_version }} to dev"
+          echo "Deploying to prod"
+          echo "Deployed version \"${{ needs.build.outputs.image_version }}\" to prod"
