@@ -71,7 +71,7 @@ jobs:
       - name: Mock
         run: |
           echo "Deploying to dev"
-          echo "Deployed ${{ needs.build.outputs.image_version }} to dev"
+          echo "Deployed version \"${{ needs.build.outputs.image_version }}\" to dev"
   deploy-stage:
     name: Deploy to stage
     runs-on: ubuntu-latest
@@ -82,4 +82,4 @@ jobs:
       - name: Mock
         run: |
           echo "Deploying to stage"
-          echo "Deployed ${{ needs.build.outputs.image_version }} to stage"
+          echo "Deployed version \"${{ needs.build.outputs.image_version }}\" to stage"
