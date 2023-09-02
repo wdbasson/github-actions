@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - "master"
     tags:
-      - 'v*'
+      - "v*"
   pull_request:
     branches:
-      - 'master'
+      - "master"
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,23 +24,19 @@ jobs:
             context: .
             file: dockerfiles/two/Dockerfile
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      -
-        name: Login to DockerHub
+      - name: Login to DockerHub
         id: login-dockerhub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Docker meta
+      - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -51,8 +47,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
-      -
-        name: Build and push
+      - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: ${{ matrix.context }}
@@ -60,18 +55,29 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      -    
-        name: Test
+      - name: Test
         run: |
-          echo ${{ steps.meta.outputs.image_version }}      
-      -
-         name: Git Semantic Version
-         uses: PaulHatch/semantic-version@v5.0.3
-      -
-         name: Test mask
-         run: |
-           echo "::add-mask::something"
-           echo "ACAPY_GOVERNANCE_AGENT_URL=::add-mask::https://governance-ga-agent.cloudapi.dev.didxtech.com" >> $GITHUB_ENV
-           echo NO_QUOTES_VAR=::add-mask::secretvalue
-           echo "::add-mask::NO_QUOTES_VAR=secretvalue"
-           echo "here"
+          echo ${{ steps.meta.outputs.image_version }}
+      - name: Git Semantic Version
+        uses: PaulHatch/semantic-version@v5.0.3
+
+  deploy-dev:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+    needs: build
+    environment: dev
+    steps:
+      - name: Mock
+        run: |
+          echo "Deploying to dev"
+          echo "Deployed ${{ needs.build.outputs.image_version }} to dev"
+  deploy-prod:
+    name: Deploy to prod
+    runs-on: ubuntu-latest
+    needs: [build, deploy-dev]
+    environment: prod
+    steps:
+      - name: Mock
+        run: |
+          echo "Deploying to dev"
+          echo "Deployed ${{ needs.build.outputs.image_version }} to dev"
