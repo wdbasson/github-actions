@@ -1,4 +1,4 @@
-name: Semver
+name: Semver Trigger
 
 on:
   workflow_dispatch:
