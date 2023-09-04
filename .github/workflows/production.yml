@@ -1,5 +1,5 @@
 # .github/workflows/deploy-production.yaml
-name: Production
+name: Production Trigger
 on:
   release:
     types: [released]
