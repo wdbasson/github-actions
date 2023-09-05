@@ -1,5 +1,5 @@
 # .github/workflows/deploy-production.yaml
-name: Production
+name: Production - Feature A
 on:
   release:
     types: [released]
