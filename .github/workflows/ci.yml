@@ -71,7 +71,6 @@ jobs:
   deploy-stage:
     name: Deploy to stage
     runs-on: ubuntu-latest
-    needs: [build]
     environment: stage
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     steps:
