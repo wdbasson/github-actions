@@ -1,4 +1,4 @@
-name: Semver
+name: Semver - Feature B
 
 on:
   workflow_dispatch:
